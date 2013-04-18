@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 
 #define LOOP  5
 
 int in_dados (int couter);
 void ordenacao (int *valores);
+void media_desvio (int *valores);
 
 int main (int argc, char **argv)
 {
@@ -22,6 +24,10 @@ int main (int argc, char **argv)
 	printf ("\nOrddenacao:  ");
 	for (i = 0; i < LOOP; i++) printf ("%d  ", vetor[i]);
 	printf("\n");
+
+	media_desvio (vetor);
+
+	return (0);
 }
 
 int in_dados (int couter)
@@ -66,5 +72,25 @@ void ordenacao (int *valores)
 		}
 	}
 	for (i = 0; i < LOOP; i++) *(valores+i) = vetor_aux[i];
+}
+
+void media_desvio (int *valores)
+{
+	int i;
+	float desvio, media = 0;
+	float soma = 0;
+
+	for (i = 0; i < LOOP; i++) media = media + *(valores+i);
+	media = media / LOOP;
+	printf ("\nMedia dos valores digitados:  %.2f\n", media);
+
+	for (i = 0; i < LOOP; i++)
+	{
+		desvio = *(valores+i) - media;
+		soma = soma + powf (desvio, 2);
+	}
+	soma = soma / LOOP;
+	desvio = sqrtf (soma);
+	printf ("Desvio padrao dos valores digitados:  %.2f\n\n", desvio);
 }
 
